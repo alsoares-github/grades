@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cls = new System.Windows.Forms.DataGridView();
             this.btnSync = new System.Windows.Forms.Button();
             this.enrollment = new System.Windows.Forms.DataGridView();
@@ -62,16 +62,22 @@
             // 
             // enrollment
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
-            this.enrollment.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.enrollment.AllowUserToAddRows = false;
+            this.enrollment.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            this.enrollment.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.enrollment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.enrollment.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.enrollment.Location = new System.Drawing.Point(0, 200);
             this.enrollment.Name = "enrollment";
+            this.enrollment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.enrollment.Size = new System.Drawing.Size(801, 621);
             this.enrollment.TabIndex = 2;
+            this.enrollment.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.enrollment_CellFormatting);
             // 
             // btnPushGrades
             // 
+            this.btnPushGrades.Enabled = false;
             this.btnPushGrades.Location = new System.Drawing.Point(137, 827);
             this.btnPushGrades.Name = "btnPushGrades";
             this.btnPushGrades.Size = new System.Drawing.Size(146, 23);

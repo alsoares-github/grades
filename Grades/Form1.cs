@@ -13,6 +13,7 @@ namespace Grades
     public partial class Form1 : Form
     {
         GradesBrowser browser;
+        BindingList<Class.Student> students;
         public Form1()
         {
             InitializeComponent();
@@ -35,8 +36,8 @@ namespace Grades
             cls.Columns["nS"].HeaderText = "Vagas ocupadas";
 
             browser.BuildEnrollmentLists();
-           
 
+            btnPushGrades.Enabled = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -51,13 +52,14 @@ namespace Grades
             {
                 if (cl.students.Count == 0)
                     browser.BuildEnrollmentList(cl);
-                enrollment.DataSource = cl.students;
+                enrollment.DataSource = new BindingList<Class.Student>(cl.students);
 
                 enrollment.Columns["name"].ReadOnly = true;
                 enrollment.Columns["name"].HeaderText = "Nome";
                 enrollment.Columns["name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 enrollment.Columns["id"].Visible = false;
+                enrollment.Columns["section"].ReadOnly = true;
                 enrollment.Columns["section"].HeaderText = "Turma";
                 //enrollment.Columns["section"].Visible = false;
             }
@@ -70,6 +72,20 @@ namespace Grades
             {
                 browser.SyncClass(cl);
             }       
+        }
+
+        private void enrollment_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 5)
+            {
+                var s = enrollment.Rows[e.RowIndex].DataBoundItem as Class.Student;
+                var cell = enrollment.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                if (s.pfatt)
+                    cell.Style.BackColor = Color.Red;
+                else
+                    cell.Style.BackColor = Color.Empty;
+            }
         }
     }
 }
