@@ -13,7 +13,6 @@ namespace Grades
     public partial class Form1 : Form
     {
         GradesBrowser browser;
-        BindingList<Class.Student> students;
         public Form1()
         {
             InitializeComponent();
@@ -59,6 +58,7 @@ namespace Grades
                 enrollment.Columns["name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 enrollment.Columns["id"].Visible = false;
+                enrollment.Columns["pfatt"].Visible = false;
                 enrollment.Columns["section"].ReadOnly = true;
                 enrollment.Columns["section"].HeaderText = "Turma";
                 //enrollment.Columns["section"].Visible = false;
@@ -82,9 +82,26 @@ namespace Grades
                 var cell = enrollment.Rows[e.RowIndex].Cells[e.ColumnIndex];
 
                 if (s.pfatt)
+                {
                     cell.Style.BackColor = Color.Red;
+                    cell.Style.ForeColor = Color.White;
+                }
                 else
+                {
                     cell.Style.BackColor = Color.Empty;
+                    cell.Style.ForeColor = Color.Empty;
+                }
+            }
+        }
+
+        private void enrollment_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 5)
+            {
+                var s = enrollment.Rows[e.RowIndex].DataBoundItem as Class.Student;
+
+                if (s.pfatt && (s.pf == string.Empty || s.pf == null))
+                    s.pfatt = false;
             }
         }
     }

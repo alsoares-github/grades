@@ -30,7 +30,17 @@ namespace Grades
             public string section { get; set; }
             public string p1 { get; set; }
             public string p2 { get; set; }
-            public string pf { get; set; }
+            private string _pf;
+            public string pf
+            {
+                get { return _pf; }
+                set
+                {
+                    _pf = value;
+                    //NotifyPropertyChanged(nameof(pf));
+                }
+                    
+            }
 
             private bool _pfatt;
             public bool pfatt 
@@ -39,6 +49,7 @@ namespace Grades
                 set
                 {
                     _pfatt = value;
+                    //NotifyPropertyChanged(nameof(pfatt));
                     NotifyPropertyChanged(nameof(pf));
                 }
             }
