@@ -29,7 +29,9 @@ namespace Grades
             public string id { get; set; }
             public string section { get; set; }
             public string p1 { get; set; }
+            public string p1Server;
             public string p2 { get; set; }
+            public string p2Server;
             private string _pf;
             public string pf
             {
@@ -37,10 +39,10 @@ namespace Grades
                 set
                 {
                     _pf = value;
-                    //NotifyPropertyChanged(nameof(pf));
                 }
                     
             }
+            public string pfServer;
 
             private bool _pfatt;
             public bool pfatt 
@@ -49,7 +51,6 @@ namespace Grades
                 set
                 {
                     _pfatt = value;
-                    //NotifyPropertyChanged(nameof(pfatt));
                     NotifyPropertyChanged(nameof(pf));
                 }
             }
@@ -328,9 +329,9 @@ namespace Grades
                 var student = new Class.Student();
                 student.id = (string)s[0];
                 student.name = (string)s[1];
-                student.p1 = (string)s[2];
-                student.p2 = (string)s[3];
-                student.pf = (string)s[4];
+                if((string)s[2] != string.Empty) student.p1Server = student.p1 = (string)s[2];
+                if((string)s[3] != string.Empty) student.p2Server = student.p2 = (string)s[3];
+                if((string)s[4] != string.Empty) student.pfServer = student.pf = (string)s[4];
 
                 students.Add(student);
             }
@@ -374,22 +375,25 @@ namespace Grades
 
             foreach (var s in students)
             {
-                if (s.p1 != "" && s.p1 != null)
+                if (s.p1 != s.p1Server)
                 {
                     driver.ExecuteScript($"document.getElementById('notaaluno{s.id}nota221aval221').value='{s.p1}'");
                     driver.ExecuteScript($"document.getElementById('notaaluno{s.id}nota221aval221').dispatchEvent(new Event('blur'))");
+                    s.p1Server = s.p1;
                 }
-                if (s.p2 != "" && s.p2 != null)
+                if (s.p2 != s.p2Server)
                 {
                     driver.ExecuteScript($"document.getElementById('notaaluno{s.id}nota222aval222').value='{s.p2}'");
                     driver.ExecuteScript($"document.getElementById('notaaluno{s.id}nota222aval222').dispatchEvent(new Event('blur'))");
+                    s.p2Server = s.p2;
                 }
-                if (s.pf != "" && s.pf != null)
+                if (s.pf != s.pfServer)
                 {
                     if ((bool)driver.ExecuteScript($"return enableDisableInputExame({s.id});"))
                     {
                         driver.ExecuteScript($"document.getElementById('inputexamealuno{s.id}').value='{s.pf}'");
                         driver.ExecuteScript($"document.getElementById('inputexamealuno{s.id}').dispatchEvent(new Event('blur'))");
+                        s.pfServer = s.pf;
                     }
                     else
                     {

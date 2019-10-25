@@ -16,6 +16,7 @@ namespace Grades
         public Form1()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void btnSync_Click(object sender, EventArgs e)
