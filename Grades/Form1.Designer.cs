@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cls = new System.Windows.Forms.DataGridView();
             this.btnSync = new System.Windows.Forms.Button();
             this.enrollment = new System.Windows.Forms.DataGridView();
@@ -65,13 +66,22 @@
             // 
             this.enrollment.AllowUserToAddRows = false;
             this.enrollment.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue;
             this.enrollment.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.enrollment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightSteelBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.enrollment.DefaultCellStyle = dataGridViewCellStyle2;
             this.enrollment.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.enrollment.Location = new System.Drawing.Point(0, 200);
             this.enrollment.Name = "enrollment";
             this.enrollment.RowHeadersWidth = 82;
+            this.enrollment.RowTemplate.Height = 30;
             this.enrollment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.enrollment.Size = new System.Drawing.Size(769, 621);
             this.enrollment.TabIndex = 2;

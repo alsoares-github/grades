@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,6 +18,15 @@ namespace Grades
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+            BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+            null, cls, new object[] { true });
+
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+            BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+            null, enrollment, new object[] { true });
+
         }
 
         private void btnSync_Click(object sender, EventArgs e)
@@ -62,6 +72,14 @@ namespace Grades
                 enrollment.Columns["pfatt"].Visible = false;
                 enrollment.Columns["section"].ReadOnly = true;
                 enrollment.Columns["section"].HeaderText = "Turma";
+
+                int colsWidth = 75;
+                enrollment.Columns["p1"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                enrollment.Columns["p1"].Width = colsWidth;
+                enrollment.Columns["p2"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                enrollment.Columns["p2"].Width = colsWidth;
+                enrollment.Columns["pf"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                enrollment.Columns["pf"].Width = colsWidth;
                 //enrollment.Columns["section"].Visible = false;
             }
         }
@@ -105,5 +123,6 @@ namespace Grades
                     s.pfatt = false;
             }
         }
+
     }
 }
