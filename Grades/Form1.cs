@@ -17,8 +17,7 @@ namespace Grades
         public Form1()
         {
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-
+          
             typeof(DataGridView).InvokeMember("DoubleBuffered",
             BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
             null, cls, new object[] { true });
@@ -29,8 +28,27 @@ namespace Grades
 
         }
 
+        private void DoLogin()
+        {
+            if (browser == null)
+                browser = new GradesBrowser();
+            var login = new LoginDialog(browser);
+            var result = login.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                browser.Login(login.cpf, login.password);
+            }
+            else
+            {
+                this.Close();
+            }
+        }
+
         private void btnSync_Click(object sender, EventArgs e)
         {
+            var progress = new Processing();
+            progress.ShowDialog();
+
             browser.BuildClassesList();
             cls.DataSource = browser.classes;
 
@@ -52,7 +70,7 @@ namespace Grades
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            browser = new GradesBrowser();
+            browser = new GradesBrowser();   
         }
                 
         private void cls_SelectionChanged(object sender, EventArgs e)
@@ -124,5 +142,9 @@ namespace Grades
             }
         }
 
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            DoLogin();
+        }
     }
 }
