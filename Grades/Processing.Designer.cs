@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -36,8 +37,17 @@
             this.progressBar1.Location = new System.Drawing.Point(13, 68);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(345, 23);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 0;
+            // 
+            // label
+            // 
+            this.label.AutoSize = true;
+            this.label.Location = new System.Drawing.Point(13, 26);
+            this.label.Name = "label";
+            this.label.Size = new System.Drawing.Size(29, 13);
+            this.label.TabIndex = 1;
+            this.label.Text = "label";
             // 
             // Processing
             // 
@@ -45,17 +55,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(370, 131);
             this.ControlBox = false;
+            this.Controls.Add(this.label);
             this.Controls.Add(this.progressBar1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "Processing";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Processing";
+            this.Text = "Processando";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.ProgressBar progressBar1;
+        public System.Windows.Forms.Label label;
     }
 }

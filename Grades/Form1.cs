@@ -14,6 +14,7 @@ namespace Grades
     public partial class Form1 : Form
     {
         GradesBrowser browser;
+        Processing processDialog = new Processing();
         public Form1()
         {
             InitializeComponent();
@@ -44,28 +45,26 @@ namespace Grades
             }
         }
 
+        enum Operation
+        {
+            Sync,
+            Push
+        }
+
+        class BackgroundWorkerArguments
+        {
+            public Operation op;
+            public object arg;
+        }
+
         private void btnSync_Click(object sender, EventArgs e)
         {
-            var progress = new Processing();
-            progress.ShowDialog();
+            backgroundWorker1.RunWorkerAsync(new BackgroundWorkerArguments() { op = Operation.Sync, arg = null });
 
-            browser.BuildClassesList();
-            cls.DataSource = browser.classes;
-
-            cls.Columns["name"].ReadOnly = true;
-            cls.Columns["name"].HeaderText = "Disciplina";
-            cls.Columns["name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-            cls.Columns["hours"].ReadOnly = true;
-            cls.Columns["hours"].HeaderText = "Horário";
-            cls.Columns["hours"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-            cls.Columns["nS"].ReadOnly = true;
-            cls.Columns["nS"].HeaderText = "Vagas ocupadas";
-
-            browser.BuildEnrollmentLists();
-
-            btnPushGrades.Enabled = true;
+            processDialog.label.Text = "Sincronizando turmas...";
+            processDialog.ShowDialog();
+           
+           
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -107,7 +106,10 @@ namespace Grades
             var cl = cls.CurrentRow.DataBoundItem as Class;
             if (cl != null)
             {
-                browser.SyncClass(cl);
+                backgroundWorker1.RunWorkerAsync(new BackgroundWorkerArguments() { op = Operation.Push, arg = cl });
+
+                processDialog.label.Text = "Lançando notas da turma...";
+                processDialog.ShowDialog();
             }       
         }
 
@@ -145,6 +147,50 @@ namespace Grades
         private void Form1_Shown(object sender, EventArgs e)
         {
             DoLogin();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var bwarg = (BackgroundWorkerArguments)e.Argument;
+            var op = bwarg.op;
+            var cl = bwarg.arg as Class;
+
+            switch (op)
+            {
+                case Operation.Sync:
+                    browser.BuildClassesList();
+                    browser.BuildEnrollmentLists();
+                    break;
+                case Operation.Push:
+                    browser.SyncClass(cl);
+                    break;
+            }
+            e.Result = op;
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var op = (Operation)e.Result;
+
+            if (op == Operation.Sync)
+            {
+                cls.DataSource = browser.classes;
+
+                cls.Columns["name"].ReadOnly = true;
+                cls.Columns["name"].HeaderText = "Disciplina";
+                cls.Columns["name"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                cls.Columns["hours"].ReadOnly = true;
+                cls.Columns["hours"].HeaderText = "Horário";
+                cls.Columns["hours"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                cls.Columns["nS"].ReadOnly = true;
+                cls.Columns["nS"].HeaderText = "Vagas ocupadas";
+
+                btnPushGrades.Enabled = true;
+            }
+
+            processDialog.Close();
         }
     }
 }
