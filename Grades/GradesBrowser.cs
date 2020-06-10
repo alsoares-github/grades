@@ -103,18 +103,15 @@ namespace Grades
 
             driver.Url = "https://professor.cefet-rj.br";
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
-            wait.PollingInterval = TimeSpan.FromMilliseconds(5);        
+            wait.PollingInterval = TimeSpan.FromMilliseconds(5);
         }
 
         public void Login(string cpf, string password)
         {
-            var x = driver.FindElementById("j_username");
-            x.Click();
-            x.SendKeys(cpf);
-            x = driver.FindElementById("j_password");
-            x.Click();
-            x.SendKeys(password);
-            x = driver.FindElementByClassName("button");
+            driver.ExecuteScript($"document.getElementById('j_username').value='{cpf}'");
+            driver.ExecuteScript($"document.getElementById('j_password').value='{password}'");
+            driver.ExecuteScript("document.getElementsByClassName('button')[0].click()");
+            var x = driver.FindElementByClassName("button");
             x.Click();
             x = driver.FindElementByXPath("//div[@original-title='Lançamento de Notas']");
             x.Click();

@@ -37,7 +37,7 @@ namespace Grades
             var result = login.ShowDialog();
             if (result == DialogResult.OK)
             {
-                browser.Login(login.cpf, login.password);
+                browser.Login(login.cpf, login.password);  
             }
             else
             {
@@ -146,7 +146,18 @@ namespace Grades
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            DoLogin();
+            while (true)
+            {
+                try
+                {
+                    DoLogin();
+                    break;
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
